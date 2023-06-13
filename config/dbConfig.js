@@ -1,14 +1,27 @@
-module.exports ={
-    HOST: process.env.HOST,
-    USER: process.env.USER,
-    PASSWORD: process.env.DB_PASS,
-    DB: process.env.DB,
-    dialect: 'mysql',
+const {Sequelize,DataTypes} = require('sequelize');
 
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
+const dbConnection  = new Sequelize(
+    process.env.DB,
+    process.env.USER,
+    process.env.DB_PASS,{
+        HOST: process.env.HOST,
+        dialect: 'mysql',
+        operatorAliases: false,
+       
     }
-}
+)
+
+dbConnection.authenticate().then(()=>{
+    console.log("Connect to database");
+}).catch((err)=>{
+    console.log("error: " + err)
+})
+
+
+
+dbConnection.sync({ force : false }).then(()=>{
+    console.log("re-sync complete")
+})
+
+
+module.exports = dbConnection

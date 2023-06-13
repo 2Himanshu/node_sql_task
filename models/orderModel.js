@@ -1,6 +1,7 @@
-module.exports =(sequelize,DataTypes)=> {
 
-        const Order =  sequelize.define('order',{
+const dbConnection = require('../config/dbConfig.js')
+const {DataTypes} = require('sequelize')
+const Order =  dbConnection.define('order',{
             orderedBy: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -22,7 +23,6 @@ module.exports =(sequelize,DataTypes)=> {
             isDelivered: {
                 type: DataTypes.BOOLEAN
             }
+})
 
-        })
-    return Order
-}
+module.exports = Order

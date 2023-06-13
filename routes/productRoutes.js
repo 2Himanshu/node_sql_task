@@ -10,6 +10,8 @@ router.get('/getProductByID/:id',productController.getProductByID)
 router.delete('/delProduct/:id',productController.delProduct)
 router.patch('/updateProduct/:id',productController.updateProduct)
 
+// this api shows which products has which orders using association
+router.get("/productOrder/:id", productController.getProductOrder);
 
 
 module.exports = router;

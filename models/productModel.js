@@ -1,6 +1,8 @@
-module.exports = (sequelize,DataTypes) => {
 
-    const Product  = sequelize.define('product',{
+const dbConnection = require('../config/dbConfig.js')
+const {DataTypes} = require('sequelize')
+
+    const Product  = dbConnection.define('product',{
         productName: {
             type: DataTypes.STRING,
             allowNull: false
@@ -15,5 +17,6 @@ module.exports = (sequelize,DataTypes) => {
             type: DataTypes.BOOLEAN
         }
     })
-    return Product
-}
+    
+    
+module.exports = Product

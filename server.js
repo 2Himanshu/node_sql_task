@@ -9,10 +9,17 @@ var corsOption = {
 app.use(express.json());
 app.use(cors(corsOption));
 
+// db connection
+require('./config/dbConfig.js')
+
 const prodRouter = require('./routes/productRoutes.js')
 const orderRouter = require('./routes/orderRoutes.js')
+
 app.use('/api/products',prodRouter)
 app.use('/api/order',orderRouter)
+
+// 
+require('./utils/modelRelationShip.js').ModelRelationShip()
 
 const PORT = process.env.PORT || 8080;
 

@@ -1,14 +1,13 @@
-const db = require('../models');
-
+const Product = require('../models/productModel');
+const Order = require('../models/orderModel');
 // create main model
 
-const Product = db.products
 
 // adding products
 
 const createProduct = async(req,res)=>{
 
-    let info = {
+    let productInfo = {
         productName: req.body.productName,
         price: req.body.price,
         description: req.body.description,
@@ -16,17 +15,17 @@ const createProduct = async(req,res)=>{
     }
 
 
-    if(info.productName == "")
+    if(productInfo.productName == "")
         return res.status(404).send({msg: "name is empty."})
-    if(info.price == null)
+    if(productInfo.price == null)
         return res.status(404).send({msg: "price is empty."})
-    if(info.description == "")
+    if(productInfo.description == "")
         return res.status(404).send({msg: "description is empty."})
-    if(info.isAvailable == null)
+    if(productInfo.isAvailable == null)
         return res.status(404).send({msg: "available  is empty."})    
 
-    let prod = await Product.create(info);
-    res.status(200).send(prod);
+    let product = await Product.create(productInfo);
+    res.status(200).send(product);
 
 }
 
@@ -49,8 +48,8 @@ const getAllProduct = async(req,res) => {
 // getting products by id
 
 const getProductByID = async(req,res) => {
-    let id = req.params.id
-    let products = await Product.findOne({where: {id: id}})
+    let productId = req.params.id
+    let products = await Product.findByPk(productId)
     if(!products)
         return res.status(404).send({msg: 'Product not found'})
     return res.status(200).send(products)
@@ -69,12 +68,12 @@ const delProduct = async(req,res) => {
 
 // updating product by id
 const updateProduct = async(req,res) => {
-    let info = req.body
+    let productInfo = req.body
     let id = req.params.id
     let prodID = await Product.findByPk(id)
         if(!prodID)
             return res.status(404).send({msg: "product not found"});
-    let products = await Product.update(info,{
+    let products = await Product.update(productInfo,{
         where: {id: id}
     })
     if(!products)
@@ -83,10 +82,40 @@ const updateProduct = async(req,res) => {
         return res.status(200).send({msg: "product successfully updated"})
 }
 
+
+// get product order
+
+// const getProductOrder = async(req,res)=>{
+//     let id = req.params.id
+//     const data = await Product.findAll({
+//       include: [{
+//         model: Order,
+//         as: "order"
+//       }],
+//       where: {id: id}
+//     })
+  
+//     res.status(200).send(data)
+//   }
+
+const getProductOrder = async(req,res)=>{
+    let id = req.params.id
+    const data = await Product.findAll({
+      include: [{
+        model: Order,
+        as: "order"
+      }],
+      where: {id: id}
+    })
+  
+    res.status(200).send(data)
+  }
+
 module.exports = {
     createProduct,
     getAllProduct,
     getProductByID,
     delProduct,
-    updateProduct
+    updateProduct,
+    getProductOrder
 }

@@ -1,28 +1,29 @@
-const db = require('../models')
-
-const Order =  db.orders
+const Order = require('../models/orderModel.js')
 
 
 // adding order
 const addOrder = async(req,res)=>{
     
-        let info = {
+        let orderInfo = {
             orderedBy: req.body.orderedBy,
             address: req.body.address,
             productName: req.body.productName,
             price: req.body.price,
+            product_id: req.body.product_id,
             quantity: req.body.quantity,
             isDelivered: req.body.isDelivered ? req.body.isDelivered : false,
         }
 
-        if(info.orderedBy == "")
+        if(orderInfo.orderedBy == "")
             return res.status(200).json({msg : "customer name is missing"})
-        if(info.address=="")
+        if(orderInfo.address=="")
             return res.status(404).json({msg : "adress is missing"})
-        if(!info.quantity)
+        if(!orderInfo.quantity)
             return res.status(404).json({msg : "quantity is missing"})
+        if(orderInfo.product_id==null)
+            return res.status(404).json({msg : "product id is missing"});
        
-        let order = await Order.create(info)
+        let order = await Order.create(orderInfo)
         if(!order)
             return res.status(404).json({msg : "SuccessFull Inserted",prod : order})
             res.status(200).json(order)
