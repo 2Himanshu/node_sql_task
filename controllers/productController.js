@@ -103,7 +103,7 @@ const getProductOrder = async(req,res)=>{
     const data = await Product.findAll({
       include: [{
         model: Order,
-        as: "order"
+        as: "orders"
       }],
       where: {id: id}
     })

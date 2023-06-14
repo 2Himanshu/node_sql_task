@@ -7,7 +7,6 @@ const dbConnection  = new Sequelize(
         HOST: process.env.HOST,
         dialect: 'mysql',
         operatorAliases: false,
-       
     }
 )
 

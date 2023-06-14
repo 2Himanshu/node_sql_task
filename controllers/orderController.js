@@ -9,7 +9,7 @@ const addOrder = async(req,res)=>{
             address: req.body.address,
             productName: req.body.productName,
             price: req.body.price,
-            product_id: req.body.product_id,
+            productId: req.body.productId,
             quantity: req.body.quantity,
             isDelivered: req.body.isDelivered ? req.body.isDelivered : false,
         }
@@ -20,7 +20,7 @@ const addOrder = async(req,res)=>{
             return res.status(404).json({msg : "adress is missing"})
         if(!orderInfo.quantity)
             return res.status(404).json({msg : "quantity is missing"})
-        if(orderInfo.product_id==null)
+        if(orderInfo.productId==null)
             return res.status(404).json({msg : "product id is missing"});
        
         let order = await Order.create(orderInfo)
